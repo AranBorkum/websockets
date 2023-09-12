@@ -2,7 +2,6 @@ from pprint import pprint
 
 from django.core.handlers.asgi import ASGIRequest
 from django.shortcuts import render
-from requests import Request
 
 
 # Create your views here.
