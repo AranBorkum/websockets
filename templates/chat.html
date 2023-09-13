@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,10 +9,12 @@
             width: 400px;
             height: 600px;
         }
+
         .input_bar {
             width: 95%;
             height: 36px;
         }
+
         .message_container {
             width: 100%;
             height: 450px;
@@ -20,6 +23,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div>
@@ -51,8 +55,9 @@
         })
 
         const chatSocket = new WebSocket(url)
-        chatSocket.onmessage = function(e) {
+        chatSocket.onmessage = function (e) {
             let data = JSON.parse(e.data)
+            console.log(data)
             let messages = document.getElementById("text-container")
             console.log(data.message)
             messages.insertAdjacentHTML('beforeend', `<p>${data.message}</p>`)
@@ -64,7 +69,7 @@
                 getUrl,
                 {
                     method: "POST",
-                    body: JSON.stringify({transaction_id: transaction_id})
+                    body: JSON.stringify({ transaction_id: transaction_id })
                 }
             )
             const status = response.status;
@@ -73,4 +78,5 @@
 
     </script>
 </body>
+
 </html>
