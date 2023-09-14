@@ -38,13 +38,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({"message": "Disconnected"}))
         await self.channel_layer.group_discard(self.room_name, self.channel_name)
 
-    async def input_message(self, event):
-        print(event)
-        await self.send(text_data=json.dumps({"message": event.get("message")}))
-
-    async def from_button(self, event):
-        await self.send(text_data=json.dumps({"message": "from_button"}))
-
     async def transaction_updated(self, event):
-        print("called transaction_updated")
-        await self.send(text_data=json.dumps({"message": "from model update"}))
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": "transaction.updated",
+                    "message": event.get("message"),
+                    "timestamp": event.get("timestamp"),
+                }
+            )
+        )

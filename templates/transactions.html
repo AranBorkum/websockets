@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Transactions</h1>
+    <div id="transactions">
+
+    </div>
+    <script type="text/javascript">
+        let getUrl = `http://${window.location.host}/api/list-transactions/`
+        let transactionIds = []
+
+        const response = fetch(getUrl, {method: "GET"})
+            .then((res) => res.json())
+            .then((json) => JSON.parse(json))
+            .then((data) => {
+                for (let i=0; i<data.transaction_ids.length; i++) {
+                    document.getElementById("transactions").insertAdjacentHTML(
+                        'beforeend', `
+                        <a href="/chat/${data.transaction_ids[i]}/">
+                            <p>${data.transaction_ids[i]}</p>
+                        </a>`
+                    )
+                }
+            })
+
+
+
+    </script>
+
+</body>
+</html>

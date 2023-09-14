@@ -4,79 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        .container {
-            width: 400px;
-            height: 600px;
-        }
-
-        .input_bar {
-            width: 95%;
-            height: 36px;
-        }
-
-        .message_container {
-            width: 100%;
-            height: 450px;
-            overflow-y: scroll;
-            border: 1px solid black;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
-        <div>
-            <button onclick=getButton()>Press me</button>
-        </div>
-        <div id="text-container" class="message_container"></div>
-        <form id="form">
-            <input class="input_bar" type="text" name="message" placeholder="Start Typing..." />
-        </form>
+        <h2>Transaction Information</h2>
+        <h5>Please write in JSON format... plz</h5>
+        <textarea id="text-area"></textarea>
+        <br/>
+        <button type="submit" id="get-transaction-info">Submit</button>
     </div>
 
-
-
-    <script type="text/javascript">
-        const transaction_id = {{ transaction_id }};
-        let url = `ws://${window.location.host}/ws/socket-server/${transaction_id}`
-        let getUrl = `http://${window.location.host}/other/button-call/`
-        let form = document.getElementById("form")
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault()
-            let message = e.target.message.value
-            chatSocket.send(JSON.stringify({
-                "type": "message.user_input",
-                "message": message,
-                "transaction_id": transaction_id,
-            }))
-            form.reset()
-        })
-
-        const chatSocket = new WebSocket(url)
-        chatSocket.onmessage = function (e) {
-            let data = JSON.parse(e.data)
-            console.log(data)
-            let messages = document.getElementById("text-container")
-            console.log(data.message)
-            messages.insertAdjacentHTML('beforeend', `<p>${data.message}</p>`)
-        }
-
-        async function getButton() {
-            console.log("test")
-            const response = await fetch(
-                getUrl,
-                {
-                    method: "POST",
-                    body: JSON.stringify({ transaction_id: transaction_id })
-                }
-            )
-            const status = response.status;
-            console.log(status)
-        }
-
-    </script>
+    {% load static %}
+    <script src="{% static "chat.js" %}"></script>
 </body>
 
 </html>
